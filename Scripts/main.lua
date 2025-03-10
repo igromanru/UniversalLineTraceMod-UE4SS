@@ -14,6 +14,7 @@ local TraceLengthInM = 50 ---@type number meters
 
 Log("Starting mod initialization")
 
+---Logs information about hit object
 ---@param HitResult FHitResult
 local function LogHitResult(HitResult)
     if not HitResult then return end
@@ -37,6 +38,7 @@ local function LogHitResult(HitResult)
     end
 end
 
+---Fires a raycast from the camera's location that collides with first object based on a chosen collision channel and logs information about the hit object.
 local function LineTraceByChannel()
     local worldContext, startLocation, endLocation = GetWorldContextAndStartAndEndLocation(TraceLengthInM)
     if worldContext and startLocation and endLocation then
@@ -52,6 +54,7 @@ local function LineTraceByChannel()
     end
 end
 
+---Fires a raycast from the camera's location, colliding with the first object based on its collision type and logs details about the hit object.
 local function LineTraceByObject()
     local worldContext, startLocation, endLocation = GetWorldContextAndStartAndEndLocation(TraceLengthInM)
     if worldContext and startLocation and endLocation then
@@ -68,6 +71,7 @@ local function LineTraceByObject()
     end
 end
 
+---Switches back and forth between collision channels
 ---@param Step integer Step by which CollisionChannel will be increased (Default: 1)
 local function SwitchCollisionChannel(Step)
     Step = Step or 1
