@@ -41,7 +41,7 @@ end
 local function LineTraceByChannel()
     local worldContext, startLocation, endLocation = GetWorldContextAndStartAndEndLocation(TraceLengthInM)
     if worldContext and startLocation and endLocation then
-        local actorsToIgnore = {}---@type TArray<AActor>
+        local actorsToIgnore = {} ---@type TArray<AActor>
         local outHitResult = {} ---@cast outHitResult FHitResult
         local traceColor = { R = 0, G = 0, B = 0, A = 0 } ---@type FLinearColor
         if GetKismetSystemLibrary():LineTraceSingle(worldContext, startLocation, endLocation, CollisionChannel, false, actorsToIgnore, 0, outHitResult, true, traceColor, traceColor, 0.0) then
@@ -74,7 +74,7 @@ end
 ---@param Step integer Step by which CollisionChannel will be increased (Default: 1)
 local function SwitchCollisionChannel(Step)
     Step = Step or 1
-    
+
     CollisionChannel = CollisionChannel + Step
     if CollisionChannel < 0 then
         CollisionChannel = 33 + CollisionChannel
@@ -103,6 +103,5 @@ end)
 RegisterKeyBind(Key.PAGE_DOWN, function()
     SwitchCollisionChannel(-1)
 end)
-
 
 Log("Mod loaded successfully")
