@@ -5,7 +5,6 @@
 ]]
 
 require("Utils")
-require("ECollisionChannel")
 
 ModVersion = "1.0.0"
 
@@ -15,7 +14,7 @@ local TraceLengthInM = 50 ---@type number meters
 Log("Starting mod initialization")
 
 ---Logs information about hit object
----@param HitResult FHitResult
+---@param HitResult FHitResult?
 local function LogHitResult(HitResult)
     if not HitResult then return end
 
@@ -39,35 +38,24 @@ local function LogHitResult(HitResult)
 end
 
 ---Fires a raycast from the camera's location that collides with first object based on a chosen collision channel and logs information about the hit object.
-local function LineTraceByChannel()
-    local worldContext, startLocation, endLocation = GetWorldContextAndStartAndEndLocation(TraceLengthInM)
-    if worldContext and startLocation and endLocation then
-        local actorsToIgnore = {} ---@type TArray<AActor>
-        local outHitResult = {} ---@cast outHitResult FHitResult
-        local traceColor = { R = 0, G = 0, B = 0, A = 0 } ---@type FLinearColor
-        if GetKismetSystemLibrary():LineTraceSingle(worldContext, startLocation, endLocation, CollisionChannel, false, actorsToIgnore, 0, outHitResult, true, traceColor, traceColor, 0.0) then
-            Log("Hit object with collision channel: " .. CollisionChannel)
-            LogHitResult(outHitResult)
-        else
-            Log("No hit for collision channel: " .. CollisionChannel)
-        end
+local function LogLineTraceByChannel()
+    local hitResult = LineTraceByChannel(CollisionChannel, TraceLengthInM)
+    if hitResult then
+        Log("Hit object with trace type: " .. CollisionChannel)
+        LogHitResult(hitResult)
+    else
+        Log("No hit for trace type: " .. CollisionChannel)
     end
 end
 
 ---Fires a raycast from the camera's location, colliding with the first object based on its collision type and logs details about the hit object.
-local function LineTraceByObject()
-    local worldContext, startLocation, endLocation = GetWorldContextAndStartAndEndLocation(TraceLengthInM)
-    if worldContext and startLocation and endLocation then
-        local traceObjects = { CollisionChannel } ---@type TArray<EObjectTypeQuery>
-        local actorsToIgnore = {} ---@type TArray<AActor>
-        local outHitResult = {} ---@cast outHitResult FHitResult
-        local traceColor = { R = 0, G = 0, B = 0, A = 0 } ---@type FLinearColor
-        if GetKismetSystemLibrary():LineTraceSingleForObjects(worldContext, startLocation, endLocation, traceObjects, false, actorsToIgnore, 0, outHitResult, true, traceColor, traceColor, 0.0) then
-            Log("Hit object collision type: " .. CollisionChannel)
-            LogHitResult(outHitResult)
-        else
-            Log("No hit for object collision type: " .. CollisionChannel)
-        end
+local function LogLineTraceByObject()
+    local hitResult = LineTraceByObject(CollisionChannel, TraceLengthInM)
+    if hitResult then
+        Log("Hit object with object query type: " .. CollisionChannel)
+        LogHitResult(hitResult)
+    else
+        Log("No hit for object query type: " .. CollisionChannel)
     end
 end
 
@@ -87,13 +75,13 @@ end
 
 RegisterKeyBind(Key.F3, function()
     ExecuteInGameThread(function()
-        LineTraceByChannel()
+        LogLineTraceByChannel()
     end)
 end)
 
 RegisterKeyBind(Key.F4, function()
     ExecuteInGameThread(function()
-        LineTraceByObject()
+        LogLineTraceByObject()
     end)
 end)
 
