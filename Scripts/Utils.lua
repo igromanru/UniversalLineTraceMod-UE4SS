@@ -7,20 +7,11 @@ GetActorFromHitResult = UEHelpers.GetActorFromHitResult
 
 ModName = "UniversalLineTraceMod"
 ModVersion = "1.0.0"
-DebugMode = false
 
 ---Prints message with mod information and line break to console
 ---@param Message string
 function Log(Message)
     print(string.format("[%s v%s]: %s\n", ModName, ModVersion, Message))
-end
-
----Prints message with `Log` function, if `DebugMode` is enabled
----@param Message string
-function LogDebug(Message)
-    if DebugMode then
-        Log(Message)
-    end
 end
 
 ---Converts meters to UE units (centimeter)

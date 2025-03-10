@@ -7,7 +7,6 @@
 require("Utils")
 
 ModVersion = "1.0.0"
-DebugMode = true
 
 local CollisionChannel = 0 ---@type ECollisionChannel|ETraceTypeQuery|EObjectTypeQuery
 local TraceLengthInM = 50 ---@type number meters
