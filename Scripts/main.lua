@@ -65,7 +65,7 @@ local function LineTraceByObject()
             Log("Hit object collision type: " .. CollisionChannel)
             LogHitResult(outHitResult)
         else
-            Log("No hit for collision object: " .. CollisionChannel)
+            Log("No hit for object collision type: " .. CollisionChannel)
         end
     end
 end
