@@ -4,6 +4,8 @@
     Mod Name: UniversalLineTraceMod
 ]]
 
+local UEHelpers = require("UEHelpers")
+local TraceUtils = require("TraceUtils")
 require("Utils")
 
 ModVersion = "1.0.0"
@@ -18,7 +20,7 @@ Log("Starting mod initialization")
 local function LogHitResult(HitResult)
     if not HitResult then return end
 
-    local hitActor = GetActorFromHitResult(HitResult)
+    local hitActor = UEHelpers.GetActorFromHitResult(HitResult)
     if hitActor:IsValid() then
         Log("Object Name: " .. hitActor:GetFullName())
         Log("Class Name: " .. hitActor:GetClass():GetFullName())
@@ -39,7 +41,7 @@ end
 
 ---Fires a raycast from the camera's location that collides with first object based on a chosen collision channel and logs information about the hit object.
 local function LogLineTraceByChannel()
-    local hitResult = LineTraceByChannel(CollisionChannel, TraceLengthInM)
+    local hitResult = TraceUtils.LineTraceByChannel(CollisionChannel, TraceLengthInM)
     if hitResult then
         Log("Hit object with trace type: " .. CollisionChannel)
         LogHitResult(hitResult)
@@ -50,7 +52,7 @@ end
 
 ---Fires a raycast from the camera's location, colliding with the first object based on its collision type and logs details about the hit object.
 local function LogLineTraceByObject()
-    local hitResult = LineTraceByObject(CollisionChannel, TraceLengthInM)
+    local hitResult = TraceUtils.LineTraceByObject(CollisionChannel, TraceLengthInM)
     if hitResult then
         Log("Hit object with object query type: " .. CollisionChannel)
         LogHitResult(hitResult)
