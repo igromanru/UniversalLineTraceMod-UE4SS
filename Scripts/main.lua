@@ -5,10 +5,11 @@
 ]]
 
 require("Utils")
+require("ECollisionChannel")
 
 ModVersion = "1.0.0"
 
-local CollisionChannel = 0 ---@type ECollisionChannel|ETraceTypeQuery|EObjectTypeQuery
+local CollisionChannel = ECollisionChannel.ECC_WorldStatic ---@type ECollisionChannel|ETraceTypeQuery|EObjectTypeQuery
 local TraceLengthInM = 50 ---@type number meters
 
 Log("Starting mod initialization")
@@ -76,10 +77,10 @@ local function SwitchCollisionChannel(Step)
     Step = Step or 1
 
     CollisionChannel = CollisionChannel + Step
-    if CollisionChannel < 0 then
-        CollisionChannel = 33 + CollisionChannel
-    elseif CollisionChannel > 32 then
-        CollisionChannel = CollisionChannel - 32
+    if CollisionChannel < ECollisionChannel.ECC_WorldStatic then
+        CollisionChannel = ECollisionChannel.ECC_MAX + CollisionChannel
+    elseif CollisionChannel >= ECollisionChannel.ECC_MAX then
+        CollisionChannel = CollisionChannel - ECollisionChannel.ECC_MAX
     end
     Log("Collision Type: " .. CollisionChannel)
 end
